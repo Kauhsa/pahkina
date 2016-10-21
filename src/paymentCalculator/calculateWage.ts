@@ -5,28 +5,112 @@ import { CalculationParams } from './CalculationParams';
 import Time from '../Time';
 import HourEntry from '../hourEntry/HourEntry';
 
-export default function calculateWage(entries: HourEntry[], params: CalculationParams) {
+/**
+ * Represents wage data, for a day or a larger time period. Numbers are
+ * represented as strings, fixed to two decimals.
+ */
+type WageInfo = {
+  readonly regular: string,
+  readonly evening: string,
+  readonly overtime: string,
+  readonly total: string
+}
+
+type DailyWageInfo = {
+  readonly date: string,
+  readonly wages: WageInfo
+}
+
+type WageInfoForPerson = {
+  readonly id: string,
+  readonly name: string,
+  readonly monthlyWages: WageInfo,
+  readonly dailyWages: DailyWageInfo[]
+}
+
+type WageCalculationResult = {
+  readonly year: number,
+  readonly month: number,
+  readonly person: WageInfoForPerson[]
+}[]
+
+/**
+ * Calculate wages, given (valid) entries.
+ */
+export default function calculateWage(entries: HourEntry[], params: CalculationParams): WageCalculationResult {
   return _(entries)
-    .groupBy((entry) => entry.identifier)
-    .mapValues((entries: HourEntry[]) => calculateForPerson(entries, params))
+    .groupBy((entry: HourEntry) => entry.start.format('YYYY-MM'))
+    .values()
+    .map((entries: HourEntry[]) => ({
+      year: entries[0].start.year(),
+      month: entries[0].start.month(),
+      person: calculateForMonth(entries, params)
+    }))
     .value()
 }
 
-function calculateForPerson(entriesForPerson: HourEntry[], params: CalculationParams) {
+function calculateForMonth(entriesForMonth: HourEntry[], params: CalculationParams): WageInfoForPerson[] {
+  return _(entriesForMonth)
+    .groupBy((entry: HourEntry) => entry.identifier)
+    .values()
+    .map((entries: HourEntry[]) => {
+      const dailyWages = calculateForPerson(entries, params)
+
+      return {
+        id: entries[0].identifier.toString(),
+        name: entries[0].name,
+        monthlyWages: getTotalMonthlyWage(dailyWages),
+        dailyWages,
+      }
+    })
+    .value()
+}
+
+function getTotalMonthlyWage(dailyWages: DailyWageInfo[]): WageInfo {
+  const foo = dailyWages.reduce((acc, dailyWage) => ({
+    regular: acc.regular.plus(dailyWage.wages.regular),
+    evening: acc.evening.plus(dailyWage.wages.evening),
+    overtime: acc.overtime.plus(dailyWage.wages.overtime),
+    total: acc.total.plus(dailyWage.wages.total)
+  }), {
+    regular: new Big(0),
+    evening: new Big(0),
+    overtime: new Big(0),
+    total: new Big(0)
+  })
+
+  return {
+    regular: foo.regular.toFixed(2),
+    evening: foo.evening.toFixed(2),
+    overtime: foo.overtime.toFixed(2),
+    total: foo.total.toFixed(2)
+  }
+}
+
+function calculateForPerson(entriesForPerson: HourEntry[], params: CalculationParams): DailyWageInfo[] {
   return _(entriesForPerson)
     .groupBy((entry) => entry.start.format('YYYY-MM-DD'))
-    .mapValues((entries: HourEntry[]) => calculateForDay(entries, params))
+    .map((entries: HourEntry[], date: string) => ({
+      date,
+      wages: calculateForDay(entries, params)
+    }))
     .value()
 }
 
-function calculateForDay(entriesForDay: HourEntry[], params: CalculationParams) {
+function calculateForDay(entriesForDay: HourEntry[], params: CalculationParams): WageInfo {
   const minutesOnEntry = (entry) => moment.duration(entry.end.diff(entry.start)).asMinutes()
   const minutesTotal = entriesForDay.reduce((acc, entry) => acc + minutesOnEntry(entry), 0)
 
+  const regular = getRegularWage(minutesTotal, params).round(2)
+  const evening = getEveningHoursWage(entriesForDay, params).round(2)
+  const overtime = getOvertimeWage(minutesTotal, params).round(2)
+  const total = regular.plus(evening).plus(overtime)
+
   return {
-    regular: getRegularWage(minutesTotal, params),
-    evening: getEveningHoursWage(entriesForDay, params),
-    overtime: getOvertimeWage(minutesTotal, params)
+    regular: regular.toFixed(2),
+    evening: evening.toFixed(2),
+    overtime: overtime.toFixed(2),
+    total: total.toFixed(2)
   };
 }
 
