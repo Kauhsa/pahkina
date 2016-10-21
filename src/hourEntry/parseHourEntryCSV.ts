@@ -1,6 +1,6 @@
 import * as Baby from 'babyparse';
 import * as moment from 'moment';
-import Time from './Time';
+import Time from '../Time';
 import HourEntry from './HourEntry';
 
 type ParseErrorType = "invalid-columns" | "csv-error";
@@ -56,7 +56,7 @@ function parseHourEntryRow(row: string[]): HourEntry | ParseError {
   return new HourEntry(nameToken, id, startDate, endDate)
 }
 
-export function parseHourEntryCsv(data: string): ParseResult {
+export default function parseHourEntryCsv(data: string): ParseResult {
   // trim to avoid empty rows due to newline at end
   let csvParseResults = Baby.parse(data.trim())
   let parsedCsv: string[][] = csvParseResults.data

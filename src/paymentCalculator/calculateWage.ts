@@ -1,5 +1,5 @@
-import Time from './Time';
-import HourEntry from './HourEntry';
+import Time from '../Time';
+import HourEntry from '../hourEntry/HourEntry';
 import * as Big from 'big.js';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -48,7 +48,7 @@ export const DEFAULT_PARAMS: CalculationParams = {
   ]
 }
 
-export function calculate(entries: HourEntry[], params: CalculationParams) {
+export default function calculateWage(entries: HourEntry[], params: CalculationParams) {
   return _(entries)
     .groupBy((entry) => entry.identifier)
     .mapValues((entries: HourEntry[]) => calculateForPerson(entries, params))
@@ -57,7 +57,7 @@ export function calculate(entries: HourEntry[], params: CalculationParams) {
 
 export function calculateForPerson(entriesForPerson: HourEntry[], params: CalculationParams) {
   return _(entriesForPerson)
-    .groupBy((entry) => entry.start.startOf("day").format('YYYY-MM-DD'))
+    .groupBy((entry) => entry.start.format('YYYY-MM-DD'))
     .mapValues((entries: HourEntry[]) => calculateForDay(entries, params))
     .value()
 }

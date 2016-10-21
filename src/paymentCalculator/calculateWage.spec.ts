@@ -1,7 +1,7 @@
-/// <reference path="../node_modules/@types/jasmine/index.d.ts"/>
+/// <reference path="../../node_modules/@types/jasmine/index.d.ts"/>
 
-import { calculate, DEFAULT_PARAMS } from './PaymentCalculator';
-import { parseHourEntryCsv } from './HourEntryParser';
+import calculateWage, { DEFAULT_PARAMS } from './calculateWage';
+import parseHourEntryCSV from '../hourEntry/parseHourEntryCSV';
 
 const CSV = `
 Scott Scala,2,2.3.2014,6:00,14:00
@@ -75,8 +75,8 @@ Larry Lolcode,3,30.3.2014,8:00,16:00
 
 describe('PaymentCalculator', () => {
   it('foo', () => {
-    const parseResult = parseHourEntryCsv(CSV);
-    const data = calculate(parseResult.entries, DEFAULT_PARAMS);
+    const parseResult = parseHourEntryCSV(CSV);
+    const data = calculateWage(parseResult.entries, DEFAULT_PARAMS);
     console.log(JSON.stringify(data, null, 4))
   })
 })

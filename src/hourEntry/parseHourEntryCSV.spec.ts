@@ -1,6 +1,6 @@
-/// <reference path="../node_modules/@types/jasmine/index.d.ts"/>
+/// <reference path="../../node_modules/@types/jasmine/index.d.ts"/>
 
-import { parseHourEntryCsv } from './HourEntryParser';
+import parseHourEntryCSV from './parseHourEntryCSV';
 import HourEntry from './HourEntry';
 import * as moment from 'moment';
 
@@ -16,20 +16,20 @@ describe("parseHourEntryCsv", () => {
   });
 
   it("Parses single line successfully", () => {
-    const result = parseHourEntryCsv("pekka,1,1.1.2016,8:00,16:00")
+    const result = parseHourEntryCSV("pekka,1,1.1.2016,8:00,16:00")
     const expected = [new HourEntry("pekka", 1, moment('2016-01-01 08:00'), moment('2016-01-01 16:00'))]
     expect(result.entries).toEqual(expected)
   });
 
   it("Does not mind extra newlines at the beginning or at the end", () => {
-    const result = parseHourEntryCsv(`
+    const result = parseHourEntryCSV(`
     1,1,1.1.2016,8:00,16:00
     `)
     expect(result.entries.length).toBe(1)
   });
 
   it("Detects when end time is on another day", () => {
-    const result = parseHourEntryCsv("pekka,1,1.1.2016,8:00,2:00")
+    const result = parseHourEntryCSV("pekka,1,1.1.2016,8:00,2:00")
     const expected = [new HourEntry("pekka", 1, moment('2016-01-01 08:00'), moment('2016-01-02 02:00'))]
     expect(result.entries).toEqual(expected)
   });

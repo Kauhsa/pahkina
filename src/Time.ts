@@ -2,6 +2,9 @@ import * as moment from 'moment';
 
 const TIME_REGEX = /^(\d{1,2}):(\d{1,2})$/
 
+/**
+ * Class for representing hours and minutes.
+ */
 export default class Time {
   readonly hours: number;
   readonly minutes: number;
