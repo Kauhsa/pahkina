@@ -1,6 +1,6 @@
 import * as React from "react";
 import parseHourEntryCSV from '../../hourEntry/parseHourEntryCSV';
-import Wages from '../wages/Wages';
+import Wages from '../components/Wages';
 import './app.scss';
 
 type AppState = {
@@ -106,7 +106,7 @@ export default class App extends React.Component<{}, AppState> {
   render() {
     return <div className="app">
       <header>
-        <h1>Wages, yo</h1>
+        <h1>Money, yo</h1>
       </header>
 
       <section className="input">
@@ -118,8 +118,7 @@ export default class App extends React.Component<{}, AppState> {
       </section>
 
       <section className="output">
-        <h2>Monthly wages</h2>
-        <pre>{this.renderOutputElement()}</pre>
+        {this.renderOutputElement()}
       </section>
     </div>
   }

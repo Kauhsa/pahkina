@@ -9,35 +9,35 @@ import HourEntry from '../hourEntry/HourEntry';
  * Represents wage data, for a day or a larger time period. Numbers are
  * represented as strings, fixed to two decimals.
  */
-type WageInfo = {
+export type WageInfo = {
   readonly regular: string,
   readonly evening: string,
   readonly overtime: string,
   readonly total: string
 }
 
-type DailyWageInfo = {
+export type DailyWageInfo = {
   readonly date: string,
   readonly wages: WageInfo
 }
 
-type WageInfoForPerson = {
+export type WageInfoForPerson = {
   readonly id: string,
   readonly name: string,
   readonly monthlyWages: WageInfo,
   readonly dailyWages: DailyWageInfo[]
 }
 
-type WageCalculationResult = {
+export type MonthlyWageInformation = {
   readonly year: number,
   readonly month: number,
   readonly person: WageInfoForPerson[]
-}[]
+}
 
 /**
  * Calculate wages, given (valid) entries.
  */
-export default function calculateWage(entries: HourEntry[], params: CalculationParams): WageCalculationResult {
+export default function calculateWage(entries: HourEntry[], params: CalculationParams): MonthlyWageInformation[] {
   return _(entries)
     .groupBy((entry: HourEntry) => entry.start.format('YYYY-MM'))
     .values()
@@ -67,7 +67,7 @@ function calculateForMonth(entriesForMonth: HourEntry[], params: CalculationPara
 }
 
 function getTotalMonthlyWage(dailyWages: DailyWageInfo[]): WageInfo {
-  const foo = dailyWages.reduce((acc, dailyWage) => ({
+  const monthlyWage = dailyWages.reduce((acc, dailyWage) => ({
     regular: acc.regular.plus(dailyWage.wages.regular),
     evening: acc.evening.plus(dailyWage.wages.evening),
     overtime: acc.overtime.plus(dailyWage.wages.overtime),
@@ -80,10 +80,10 @@ function getTotalMonthlyWage(dailyWages: DailyWageInfo[]): WageInfo {
   })
 
   return {
-    regular: foo.regular.toFixed(2),
-    evening: foo.evening.toFixed(2),
-    overtime: foo.overtime.toFixed(2),
-    total: foo.total.toFixed(2)
+    regular: monthlyWage.regular.toFixed(2),
+    evening: monthlyWage.evening.toFixed(2),
+    overtime: monthlyWage.overtime.toFixed(2),
+    total: monthlyWage.total.toFixed(2)
   }
 }
 

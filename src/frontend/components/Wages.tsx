@@ -1,6 +1,8 @@
 import * as React from "react";
+
+import Month from "./Month";
 import HourEntry from "../../hourEntry/HourEntry";
-import calculateWage from "../../paymentCalculator/calculateWage";
+import calculateWage, { MonthlyWageInformation } from "../../paymentCalculator/calculateWage";
 import { DEFAULT_PARAMS } from "../../paymentCalculator/CalculationParams";
 
 type WagesProps = {
@@ -8,15 +10,19 @@ type WagesProps = {
 }
 
 export default class Wages extends React.Component<WagesProps, {}> {
-  constructor() {
-    super()
-  }
-
   getCalculatedWages() {
     return calculateWage(this.props.entries, DEFAULT_PARAMS)
   }
 
+  getMonthElements() {
+    return this.getCalculatedWages().map((monthlyWage) =>
+      <Month monthlyWage={monthlyWage} />
+    )
+  }
+
   render() {
-    return <pre>{JSON.stringify(this.getCalculatedWages(), null, 2)}</pre>
+    return <div>
+      {this.getMonthElements()}
+    </div>
   }
 }

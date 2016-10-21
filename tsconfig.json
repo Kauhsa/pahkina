@@ -24,5 +24,8 @@
     "buildOnSave": false,
     "atom": {
         "rewriteTsconfig": false
+    },
+    "paths": {
+      "*": "declarations"
     }
 }
