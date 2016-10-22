@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "karma start",
-    "start": "webpack-dev-server"
+    "test": "karma start --single-run",
+    "test-watch": "karma start",
+    "start": "webpack-dev-server",
+    "build": "webpack --output-path=dist --output-filename=bundle.js"
   },
   "author": "",
   "license": "",
