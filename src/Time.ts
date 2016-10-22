@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-const TIME_REGEX = /^(\d{1,2}):(\d{1,2})$/
+const TIME_REGEX = /^(\d{1,2}):(\d{2})$/
 
 /**
  * Class for representing hours and minutes.
@@ -21,7 +21,18 @@ export default class Time {
       return null;
     }
 
-    return new Time(Number(result[1]), Number(result[2]))
+    const minutes = Number(result[1]);
+    const hours = Number(result[2]);
+
+    if (minutes < 0 || minutes > 59) {
+      return null;
+    }
+
+    if (hours < 0 || hours > 23) {
+      return null;
+    }
+
+    return new Time(minutes, hours)
   }
 
   momentDateOnTime(date: moment.Moment): moment.Moment {

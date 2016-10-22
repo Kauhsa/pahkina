@@ -18,7 +18,11 @@ module.exports = function(config) {
       stats: 'errors-only'
     },
 
-    reporters: ["progress"],
+    reporters: ["jasmine-diff", "mocha"],
+
+    jasmineDiffReporter: {
+      pretty: true
+    },
 
     browsers: ["PhantomJS"]
   });

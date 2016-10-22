@@ -8,7 +8,7 @@ export type CalculationParams = {
   readonly regularDailyWage: BigJsLibrary.BigJS;
 
   readonly eveningWorkParameters: {
-    readonly multiplier: BigJsLibrary.BigJS;
+    readonly extraWage: BigJsLibrary.BigJS;
     readonly start: Time;
     readonly end: Time;
   }
@@ -24,7 +24,7 @@ export const DEFAULT_PARAMS: CalculationParams = {
   regularDailyWage: new Big("3.75"),
 
   eveningWorkParameters: {
-    multiplier: new Big("0.75"),
+    extraWage: new Big("1.15"),
     start: new Time(16, 0),
     end: new Time(8, 0)
   },

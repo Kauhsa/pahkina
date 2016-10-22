@@ -32,7 +32,7 @@ export type DayWageInfo = {
  * Wage info for a person in a single month.
  */
 export type PersonWageInfo = {
-  readonly id: string,
+  readonly id: number,
   readonly name: string,
   readonly monthlyWages: WageInfo,
   readonly dailyWages: DayWageInfo[]
@@ -56,6 +56,8 @@ export type MonthWageInfo = {
  */
 export default function calculateWage(entries: HourEntry[], params: CalculationParams): MonthWageInfo[] {
   return _(entries)
+    .sortBy((entry: HourEntry) => entry.identifier)
+    .sortBy((entry: HourEntry) => entry.start.unix())
     .groupBy((entry: HourEntry) => entry.start.format('YYYY-MM'))
     .values()
     .map((entries: HourEntry[]) => ({
@@ -78,7 +80,7 @@ function calculateForMonth(entriesForMonth: HourEntry[], params: CalculationPara
       const dailyWages = calculateForPerson(entries, params)
 
       return {
-        id: entries[0].identifier.toString(),
+        id: entries[0].identifier,
         name: entries[0].name,
         monthlyWages: sumWageInfo(dailyWages.map(daily => daily.wages)),
         dailyWages,
@@ -224,8 +226,7 @@ function getEveningHoursWage(entriesForDay: HourEntry[], params: CalculationPara
   // and finally, turn the minutes to money
   return new Big(eveningMinutesTotal)
     .div(60)
-    .times(params.regularDailyWage)
-    .times(params.eveningWorkParameters.multiplier)
+    .times(params.eveningWorkParameters.extraWage)
 }
 
 /**
@@ -244,13 +245,17 @@ function getOverlappingMinutes(first: DateRange, second: DateRange): number {
  */
 function getOvertimeWage(minutesTotal: number, params: CalculationParams) {
   /*
-   *
+   * Idea is – check how many minutes is between each overtime parameter
+   * configuration given the total minutes, and then sum them together
+   * and convert to money.
    */
   return params.overtimeParameters
     .map(overtimeParams => {
       const maxMinutes = (overtimeParams.end - overtimeParams.start) * 60
-      const minutes = Math.min(Math.max(minutesTotal - (overtimeParams.start * 60), 0), maxMinutes)
-      return new Big(minutes)
+      const minutesAfterStart = Math.max(minutesTotal - (overtimeParams.start * 60), 0)
+      const minutesBetweenStartAndEnd = Math.min(minutesAfterStart, maxMinutes)
+
+      return new Big(minutesBetweenStartAndEnd)
         .div(60)
         .times(params.regularDailyWage)
         .times(overtimeParams.multiplier)
