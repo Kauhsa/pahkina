@@ -3,6 +3,7 @@ import * as React from "react";
 import parseHourEntryCSV from '../../hourEntry/parseHourEntryCSV';
 import Wages from './Wages';
 import Editor from './Editor';
+import Errors from './Errors';
 import wageCalculationWorker, { WorkerResult } from '../wageCalculationWorker/wageCalculationWorker';
 import INITIAL_INPUT from '../initialInput';
 
@@ -38,14 +39,7 @@ export default class App extends React.Component<{}, AppState> {
     if (workerResult.monthlyWages !== null) {
       return <Wages monthlyWages={workerResult.monthlyWages} />
     } else if (workerResult.errors !== null) {
-      const errorList = workerResult.errors.map((errorOnRow, i) =>
-        <div className="error" key={i}>Error on row {errorOnRow.row}: "{errorOnRow.error.message}"</div>
-      );
-
-      return <div>
-        <h2>Errors</h2>
-        { errorList }
-      </div>
+      return <Errors errors={workerResult.errors} />
     } else {
       return null;
     }
