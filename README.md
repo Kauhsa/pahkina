@@ -3,10 +3,10 @@
 [![Build Status](https://travis-ci.org/Kauhsa/pahkina.svg?branch=master)](https://travis-ci.org/Kauhsa/pahkina)
 
 An exercise in tinkering with TypeScript, React etc. First I thought that I
-try use Elm, but after realizing there's not even a single CSV library that
+should try Elm, but after realizing there's not even a single CSV library that
 works with the current version of the compiler, I, er, decided otherwise.
 
-Anyway, see it live here: http://ugly-growth.surge.sh/
+Anyway, see the results live here: http://ugly-growth.surge.sh/
 
 Development done with Chrome 53, node v6.5.0, npm 3.10.3 and OSX 10.11.6.
 
@@ -40,7 +40,7 @@ Development done with Chrome 53, node v6.5.0, npm 3.10.3 and OSX 10.11.6.
   even reference etc.
 - Java 8 Date API wipes the floor with moment.js, and I didn't quickly find a
   better alternative. Time zone always lurking somewhere, everything is mutable,
-  etc.
+  no clear Date vs DateTime, etc.
 - React is much improved with TypeScript, I think – for example, no need for
   goofy `.propTypes` stuff.
 - Code organization with TypeScript (and in modern JS, I guess) is still bit of
@@ -54,7 +54,8 @@ Development done with Chrome 53, node v6.5.0, npm 3.10.3 and OSX 10.11.6.
 
 ## Testing and running
 
-First, install packages (I'm assuming that you have node & npm already installed):
+First, install packages (I'm assuming that you have node & npm already
+installed):
 ```
 $ npm install
 ```
