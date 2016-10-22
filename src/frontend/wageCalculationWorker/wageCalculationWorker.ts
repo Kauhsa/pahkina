@@ -12,6 +12,9 @@ export type WorkerResult = {
   monthlyWages: MonthWageInfo[];
 }
 
+/**
+ * Do a CSV parsing and wage calculation in a separate thread.
+ */
 export default function(csv: string): PromiseLike<WorkerResult> {
   return promiseWorker.postMessage(csv);
 }
