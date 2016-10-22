@@ -21,18 +21,18 @@ export default class Time {
       return null;
     }
 
-    const minutes = Number(result[1]);
-    const hours = Number(result[2]);
-
-    if (minutes < 0 || minutes > 59) {
-      return null;
-    }
+    const hours = Number(result[1]);
+    const minutes = Number(result[2]);
 
     if (hours < 0 || hours > 23) {
       return null;
     }
 
-    return new Time(minutes, hours)
+    if (minutes < 0 || minutes > 59) {
+      return null;
+    }
+
+    return new Time(hours, minutes)
   }
 
   momentDateOnTime(date: moment.Moment): moment.Moment {
