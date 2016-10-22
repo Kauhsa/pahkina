@@ -1,10 +1,15 @@
+import 'core-js';
 import * as React from "react";
 import AceEditor from 'react-ace';
 import parseHourEntryCSV from '../../hourEntry/parseHourEntryCSV';
 import Wages from '../components/Wages';
+import wageCalculationWorker, { WorkerResult } from '../wageCalculationWorker/wageCalculationWorker';
+
+import 'brace/theme/github';
 
 type AppState = {
-  input: string
+  input: string,
+  workerResult: WorkerResult
 }
 
 const INITIAL_INPUT = `
@@ -81,26 +86,32 @@ export default class App extends React.Component<{}, AppState> {
   constructor() {
     super();
     this.state = {
-      input: INITIAL_INPUT
+      input: INITIAL_INPUT,
+      workerResult: { monthlyWages: null, errors: null }
     }
+    this.initCalculatingWages();
+  }
+
+  initCalculatingWages = () => {
+    wageCalculationWorker(this.state.input).then((result) => {
+      this.setState((oldState) => Object.assign(oldState, { workerResult: result }))
+    })
   }
 
   onTextAreaChanged = (newValue) => {
-    this.setState({input: newValue})
-  }
-
-  parseState = () => {
-    return parseHourEntryCSV(this.state.input);
+    this.setState((oldState) => Object.assign({input: newValue}))
+    this.initCalculatingWages();
   }
 
   renderOutputElement = () => {
-    const state = this.parseState();
+    const workerResult = this.state.workerResult;
 
-    if (!state.hasErrors()) {
-      console.log(state.entries)
-      return <Wages entries={state.entries} />
-    } else {
-      const errorList = state.errors.map((errorOnRow, i) =>
+    if (workerResult.monthlyWages !== null) {
+      return <Wages monthlyWages={workerResult.monthlyWages} />
+    }
+
+    if (workerResult.errors !== null) {
+      const errorList = workerResult.errors.map((errorOnRow, i) =>
         <div key={i}>Error on row {errorOnRow.row}: "{errorOnRow.error.message}"</div>
       );
 
@@ -109,21 +120,21 @@ export default class App extends React.Component<{}, AppState> {
         { errorList }
       </div>
     }
+
+    return null;
   }
 
   getErrorAnnotations = () => {
-    const state = this.parseState();
-
-    if (state.hasErrors()) {
-      return state.errors.map((errorOnRow) => ({
-        row: errorOnRow.row,
-        column: 1,
-        type: 'error',
-        text: errorOnRow.error.message
-      }))
-    } else {
+    if (this.state.workerResult.errors === null) {
       return []
     }
+
+    return this.state.workerResult.errors.map((errorOnRow) => ({
+      row: errorOnRow.row,
+      column: 1,
+      type: 'error',
+      text: errorOnRow.error.message
+    }))
   }
 
   render() {
@@ -135,7 +146,7 @@ export default class App extends React.Component<{}, AppState> {
       <section className="input">
         <h2>Hours data</h2>
         <AceEditor
-          fontSize="20"
+          fontSize={15}
           height="200px"
           width="100%"
           theme="github"

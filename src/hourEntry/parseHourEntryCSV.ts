@@ -23,6 +23,16 @@ export class ParseResult {
   }
 }
 
+export class ParseErrorOnRow {
+  readonly row: number;
+  readonly error: ParseError;
+
+  constructor(row: number, error: ParseError) {
+    this.row = row;
+    this.error = error;
+  }
+}
+
 class ParseError {
   readonly type: ParseErrorType;
   readonly message: string;
@@ -30,16 +40,6 @@ class ParseError {
   constructor(type: ParseErrorType, message: string) {
     this.type = type;
     this.message = message;
-  }
-}
-
-class ParseErrorOnRow {
-  readonly row: number;
-  readonly error: ParseError;
-
-  constructor(row: number, error: ParseError) {
-    this.row = row;
-    this.error = error;
   }
 }
 
@@ -71,13 +71,13 @@ function parseHourEntryRow(row: string[]): HourEntry | ParseError {
   // parse start time
   const startTime = Time.fromString(startToken)
   if (startTime == null) {
-    return new ParseError("invalid-time", "Time '" + startTime + "' is invalid")
+    return new ParseError("invalid-time", "Time '" + startToken + "' is invalid")
   }
 
   // parse end time
   const endTime = Time.fromString(endToken)
   if (endTime == null) {
-    return new ParseError("invalid-time", "Time '" + endTime + "' is invalid")
+    return new ParseError("invalid-time", "Time '" + endToken + "' is invalid")
   }
 
   const startDate = date.clone().hours(startTime.hours).minutes(startTime.minutes)
