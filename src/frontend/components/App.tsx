@@ -1,7 +1,7 @@
 import * as React from "react";
+import AceEditor from 'react-ace';
 import parseHourEntryCSV from '../../hourEntry/parseHourEntryCSV';
 import Wages from '../components/Wages';
-import './app.scss';
 
 type AppState = {
   input: string
@@ -85,8 +85,8 @@ export default class App extends React.Component<{}, AppState> {
     }
   }
 
-  onTextAreaChanged = (e) => {
-    this.setState({input: e.target.value})
+  onTextAreaChanged = (newValue) => {
+    this.setState({input: newValue})
   }
 
   parseState = () => {
@@ -96,10 +96,33 @@ export default class App extends React.Component<{}, AppState> {
   renderOutputElement = () => {
     const state = this.parseState();
 
-    if (state.entries) {
+    if (!state.hasErrors()) {
+      console.log(state.entries)
       return <Wages entries={state.entries} />
     } else {
-      return <pre>{JSON.stringify(state.errors, null, 4)}</pre>
+      const errorList = state.errors.map((errorOnRow, i) =>
+        <div key={i}>Error on row {errorOnRow.row}: "{errorOnRow.error.message}"</div>
+      );
+
+      return <div>
+        <h2>Errors</h2>
+        { errorList }
+      </div>
+    }
+  }
+
+  getErrorAnnotations = () => {
+    const state = this.parseState();
+
+    if (state.hasErrors()) {
+      return state.errors.map((errorOnRow) => ({
+        row: errorOnRow.row,
+        column: 1,
+        type: 'error',
+        text: errorOnRow.error.message
+      }))
+    } else {
+      return []
     }
   }
 
@@ -111,10 +134,14 @@ export default class App extends React.Component<{}, AppState> {
 
       <section className="input">
         <h2>Hours data</h2>
-        <textarea
-          placeholder="Enter your CSV data here!"
+        <AceEditor
+          fontSize="20"
+          height="200px"
+          width="100%"
+          theme="github"
+          annotations={this.getErrorAnnotations()}
           value={this.state.input}
-          onInput={this.onTextAreaChanged} />
+          onChange={this.onTextAreaChanged} />
       </section>
 
       <section className="output">

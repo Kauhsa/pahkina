@@ -37,6 +37,7 @@
     "node-sass": "^3.10.1",
     "normalize-scss": "^5.0.4",
     "react": "^15.3.2",
+    "react-ace": "^3.6.1",
     "react-collapse": "^2.3.3",
     "react-dom": "^15.3.2",
     "react-height": "^2.1.1",
