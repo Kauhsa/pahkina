@@ -7,8 +7,8 @@ type WagesProps = {
 }
 
 export default (props: WagesProps) => {
-  const monthElements = props.monthlyWages.map((monthlyWage) =>
-    <Month monthlyWage={monthlyWage} />
+  const monthElements = props.monthlyWages.map(monthlyWage =>
+    <Month monthlyWage={monthlyWage} key={monthlyWage.year + '-' + monthlyWage.month} />
   )
 
   return <div className="wages">

@@ -22,7 +22,7 @@ export default class Person extends React.Component<PersonProps, PersonState> {
 
   renderDayRows = () => {
     return this.props.personWages.dailyWages.map((dailyWage) =>
-      <div className="dayRow">
+      <div className="dayRow" key={dailyWage.date}>
         <span className="date">{dailyWage.date}</span>
         <span className="regular">{dailyWage.wages.regular}</span>
         <span className="evening">{dailyWage.wages.evening}</span>
@@ -33,7 +33,7 @@ export default class Person extends React.Component<PersonProps, PersonState> {
   }
 
   render() {
-    return <div className="person" key={this.props.personWages.id}>
+    return <div className="person">
       <div className="personRow" onClick={this.onPersonRowClick}>
         <span className="name">{this.props.personWages.name}</span>
         <span className="regular">{this.props.personWages.monthlyWages.regular}</span>

@@ -7,8 +7,8 @@ type MonthProps = {
 }
 
 export default (props: MonthProps) => {
-  const persons = props.monthlyWage.person.map((personWages) =>
-    <Person personWages={personWages} />
+  const persons = props.monthlyWage.person.map(personWages =>
+    <Person key={personWages.id} personWages={personWages} />
   )
 
   return <div className="month">
