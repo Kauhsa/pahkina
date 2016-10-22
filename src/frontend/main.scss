@@ -40,7 +40,23 @@ section {
 }
 
 .month {
-  padding-bottom: $whitespace * 2;
+  padding-bottom: $whitespace * 1;
+
+  .header {
+    display: flex;
+    padding: 7px 9px;
+    font-size: 17px;
+    font-weight: bold;
+
+    > * {
+      width: 20%;
+
+      &.regular, &.evening, &.overtime, &.total {
+        text-align: right;
+        color: #ccc;
+      }
+    }
+  }
 }
 
 .person {
@@ -48,7 +64,6 @@ section {
 
   .personRow, .dayRow {
     display: flex;
-
 
     &.dayRow {
       background-color: #f9f9f9;

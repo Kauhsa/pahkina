@@ -1,7 +1,6 @@
 import * as React from "react";
 import { WorkerResult } from '../wageCalculationWorker/wageCalculationWorker';
 import AceEditor from 'react-ace';
-import INITIAL_INPUT from '../initialInput';
 
 type EditorProps = {
   value: string;

@@ -58,7 +58,7 @@ export default class App extends React.Component<{}, AppState> {
       </header>
 
       <section className="input">
-        <h2>Hours data</h2>
+        <h2>Put your data here</h2>
         <Editor
           onChange={this.onTextAreaChanged}
           value={this.state.input}
