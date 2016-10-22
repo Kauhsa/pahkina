@@ -13,7 +13,7 @@ export default (props: MonthProps) => {
 
   return <div className="month">
     <div className="header">
-      <span className="title">Month {props.monthlyWage.month}/{props.monthlyWage.year}</span>
+      <span className="title">Month {props.monthlyWage.month + 1}/{props.monthlyWage.year}</span>
       <span className="regular">Regular</span>
       <span className="evening">Evening</span>
       <span className="overtime">Overtime</span>
