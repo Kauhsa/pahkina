@@ -43,6 +43,8 @@ Development done with Chrome 53, node v6.5.0, npm 3.10.3 and OSX 10.11.6.
   etc.
 - React is much improved with TypeScript, I think – for example, no need for
   goofy `.propTypes` stuff.
+- Code organization with TypeScript (and in modern JS, I guess) is still bit of
+  an mystery to me.
 
 ## Stuff I was thinking
 
