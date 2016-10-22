@@ -1,12 +1,12 @@
 import * as React from "react";
-import { WageInfoForPerson } from "../../paymentCalculator/calculateWage";
+import { PersonWageInfo } from "../../paymentCalculator/calculateWage";
 
 import * as Collapse from "react-collapse";
 
 console.log(Collapse)
 
 type PersonProps = {
-  personWages: WageInfoForPerson;
+  personWages: PersonWageInfo;
 }
 
 type PersonState = {

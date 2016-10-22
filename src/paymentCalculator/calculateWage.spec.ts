@@ -4,5 +4,7 @@ import { DEFAULT_PARAMS } from './CalculationParams';
 import calculateWage from './calculateWage';
 
 describe('calculateWage', () => {
-  it('works!')
+  it('works!', () => {
+
+  })
 })

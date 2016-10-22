@@ -29,5 +29,11 @@ export default class Time {
       .hours(this.hours)
       .minutes(this.minutes)
       .seconds(0)
+      .milliseconds(0)
+  }
+
+  isBefore(another: Time) {
+    return this.hours < another.hours ||
+      (this.hours == another.hours && this.minutes < another.minutes)
   }
 }

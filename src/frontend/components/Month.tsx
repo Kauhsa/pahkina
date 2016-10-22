@@ -1,9 +1,9 @@
 import * as React from "react";
 import Person from "./Person";
-import { MonthlyWageInformation } from "../../paymentCalculator/calculateWage";
+import { MonthWageInfo } from "../../paymentCalculator/calculateWage";
 
 type MonthProps = {
-  monthlyWage: MonthlyWageInformation
+  monthlyWage: MonthWageInfo
 }
 
 export default (props: MonthProps) => {

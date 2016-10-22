@@ -2,7 +2,7 @@ import * as React from "react";
 
 import Month from "./Month";
 import HourEntry from "../../hourEntry/HourEntry";
-import calculateWage, { MonthlyWageInformation } from "../../paymentCalculator/calculateWage";
+import calculateWage, { MonthWageInfo } from "../../paymentCalculator/calculateWage";
 import { DEFAULT_PARAMS } from "../../paymentCalculator/CalculationParams";
 
 type WagesProps = {

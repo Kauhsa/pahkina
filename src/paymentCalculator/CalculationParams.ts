@@ -1,6 +1,9 @@
 import * as Big from 'big.js';
 import Time from '../Time';
 
+/**
+ * Parameters used for calculation.
+ */
 export type CalculationParams = {
   readonly regularDailyWage: BigJsLibrary.BigJS;
 
