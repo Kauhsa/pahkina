@@ -2,7 +2,8 @@
 
 [![Build Status](https://travis-ci.org/Kauhsa/pahkina.svg?branch=master)](https://travis-ci.org/Kauhsa/pahkina)
 
-See it live here: http://ugly-growth.surge.sh/
+An exercise in tinkering with TypeScript, React etc. See it live here:
+http://ugly-growth.surge.sh/
 
 Tested with Chrome 53, node v6.5.0, npm 3.10.3 and OSX 10.11.6.
 
@@ -14,7 +15,7 @@ Tested with Chrome 53, node v6.5.0, npm 3.10.3 and OSX 10.11.6.
 - Computing offloaded to Web Worker thread, so calculating wages from even a
   large dataset shouldn't block the rendering thread. Well, if you copy a
   humongous CSV file to the ACE editor, that might hang the rendering thread
-  anyway ;)
+  regardless ;)
 - Shows slightly more information about the wages than was requested.
 
 ## Not so notable
@@ -26,12 +27,14 @@ Tested with Chrome 53, node v6.5.0, npm 3.10.3 and OSX 10.11.6.
 ## Discoveries
 
 - JS annoyances leak a lot to TypeScript – well, that's not surprising, but lack
-  of integer types etc. is annoying.
+  of integer types etc. is annoying. In general, Java & Scala and other actually
+  strongly typed languages.
 - Everything doesn't have TypeScript type declarations. Even things that do can
   be pretty weird to work with – imports do surprising things.
 - Java 8 Date API wipes the floor with moment.js, and I didn't quickly find a
   better candidate. Time zone always lurking in objects, everything is mutable,
   etc.
+- React is very good with TypeScript – no need for goofy `.propTypes` stuff.
 
 ## Stuff I was thinking
 
@@ -41,23 +44,23 @@ Tested with Chrome 53, node v6.5.0, npm 3.10.3 and OSX 10.11.6.
 
 ## Testing and running
 
-First install packages:
-`
+First, install packages (I'm assuming that you have node & npm already installed):
+```
 $ npm install
-`
+```
 
-The application can be seen with running the following and then opening browser in
-http://localhost:8080/webpack-dev-server/:
-`
+The application can be started with running the following and then opening
+browser in http://localhost:8080/webpack-dev-server/:
+```
 $ npm run start
-`
+```
 
 You can run tests once with:
-`
+```
 $ npm test
-`
+```
 
 Or, if you want to keep running tests whenever the code is changed:
-`
+```
 $ npm run test-watch
-`
+```
