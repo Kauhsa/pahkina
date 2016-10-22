@@ -5,16 +5,6 @@ import HourEntry from './HourEntry';
 
 type ParseErrorType = "invalid-columns" | "csv-error";
 
-class ParseError {
-  readonly type: ParseErrorType;
-  readonly message: string;
-
-  constructor(type: ParseErrorType, message: string) {
-    this.type = type;
-    this.message = message;
-  }
-}
-
 class ParseResult {
   readonly entries: HourEntry[];
   readonly errors: ParseError[];
@@ -26,6 +16,16 @@ class ParseResult {
 
   hasErrors() {
     return this.errors !== null;
+  }
+}
+
+class ParseError {
+  readonly type: ParseErrorType;
+  readonly message: string;
+
+  constructor(type: ParseErrorType, message: string) {
+    this.type = type;
+    this.message = message;
   }
 }
 

@@ -108,7 +108,6 @@ function calculateForPerson(entriesForPerson: HourEntry[], params: CalculationPa
 function calculateForDay(entriesForDay: HourEntry[], params: CalculationParams): WageInfo {
   const minutesOnEntry = (entry) => moment.duration(entry.end.diff(entry.start)).asMinutes()
   const minutesTotal = entriesForDay.reduce((acc, entry) => acc + minutesOnEntry(entry), 0)
-
   const regular = getRegularWage(minutesTotal, params).round(2)
   const evening = getEveningHoursWage(entriesForDay, params).round(2)
   const overtime = getOvertimeWage(minutesTotal, params).round(2)
@@ -175,7 +174,7 @@ function getEveningHoursWage(entriesForDay: HourEntry[], params: CalculationPara
    */
 
   const eveningParams = params.eveningWorkParameters;
-  const date = entriesForDay[0].start.startOf("day");
+  const date = entriesForDay[0].start.clone().startOf("day");
   const nextDate = date.clone().add(1, "days");
   let ranges: DateRange[];
 
@@ -234,12 +233,6 @@ function getEveningHoursWage(entriesForDay: HourEntry[], params: CalculationPara
  * ranges.
  */
 function getOverlappingMinutes(first: DateRange, second: DateRange): number {
-  // if not overlapping at all, return 0
-  if (!(first.start.isSameOrBefore(second.end) && first.end.isSameOrAfter(second.end))) {
-    return 0;
-  }
-
-  // else, return overlapping period
   const start = moment.max(first.start, second.start)
   const end = moment.min(first.end, second.end)
   return Math.max(0, moment.duration(end.diff(start)).asMinutes())

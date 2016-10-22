@@ -25,7 +25,8 @@ export default class Time {
   }
 
   momentDateOnTime(date: moment.Moment): moment.Moment {
-    return date.clone()
+    return date
+      .clone()
       .hours(this.hours)
       .minutes(this.minutes)
       .seconds(0)
