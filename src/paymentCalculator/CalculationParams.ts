@@ -15,9 +15,8 @@ export type CalculationParams = {
    * the period when evening wage should be awarded. Both start-before-end
    * (8:00-16:00) and end-before-start (16:00-8:00) declarations are supported.
    *
-   * Note that unlike in exercise definition of evening wage, the extraWage
-   * should *not* contain the regular wage part, only the extra that is given
-   * from evening work.
+   * extraWage should *not* contain the regular wage part, only the extra that
+   * is given from evening work.
    */
   readonly eveningWorkParameters: {
     readonly extraWage: BigJsLibrary.BigJS;
