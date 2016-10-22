@@ -73,16 +73,16 @@ Tests are as `.spec.ts` files alongside other source, not in their own folder.
 
 ```
 ├── README.md
-├── declarations # dummy declarations needed for TypeScript to stop complaining
-├── dist # compiled and webpacked application goes here (doesn't exist initially)
-├── karma.conf.js # test runner config
-├── package.json # dependencies & scripts
-├── src # source code
-│   ├── frontend # all source related to frontend app
-│   │   ├── components # React components
-│   │   └── wageCalculationWorker # Web worker for calculating wages
-│   ├── hourEntry # CSV parsing
-│   └── paymentCalculator # Wage calculation
-├── tsconfig.json # TypeScript compiler settings
-└── webpack.config.js # Webpack configuration (tests change this slightly)
+├── declarations                    # dummy declarations needed for TypeScript to stop complaining
+├── dist                            # compiled and webpacked application goes here (doesn't exist initially)
+├── karma.conf.js                   # test runner config
+├── package.json                    # dependencies & scripts
+├── src                             # source code
+│   ├── frontend                    # all source related to frontend app
+│   │   ├── components              # React components
+│   │   └── wageCalculationWorker   # Web worker for calculating wages
+│   ├── hourEntry                   # CSV parsing
+│   └── paymentCalculator           # Wage calculation
+├── tsconfig.json                   # TypeScript compiler settings
+└── webpack.config.js               # Webpack configuration (tests change this slightly)
 ```
