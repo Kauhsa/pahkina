@@ -2,10 +2,13 @@
 
 [![Build Status](https://travis-ci.org/Kauhsa/pahkina.svg?branch=master)](https://travis-ci.org/Kauhsa/pahkina)
 
-An exercise in tinkering with TypeScript, React etc. See it live here:
-http://ugly-growth.surge.sh/
+An exercise in tinkering with TypeScript, React etc. First I thought that I
+try use Elm, but after realizing there's not even a single CSV library that
+works with the current version of the compiler, I, er, decided otherwise.
 
-Tested with Chrome 53, node v6.5.0, npm 3.10.3 and OSX 10.11.6.
+Anyway, see it live here: http://ugly-growth.surge.sh/
+
+Development done with Chrome 53, node v6.5.0, npm 3.10.3 and OSX 10.11.6.
 
 ## Everything notable
 
@@ -30,19 +33,22 @@ Tested with Chrome 53, node v6.5.0, npm 3.10.3 and OSX 10.11.6.
 
 - JS annoyances leak a lot to TypeScript – well, that's not surprising, but lack
   of integer types etc. is annoying. In general, Java & Scala and other actually
-  strongly typed languages.
+  strongly typed languages feel a much more comfortable choice for this kind of
+  calculation.
 - Everything doesn't have TypeScript type declarations. Even things that do can
-  be pretty weird to work with – imports do surprising things.
+  be pretty weird to work with – you may need to import things that you don't
+  even reference etc.
 - Java 8 Date API wipes the floor with moment.js, and I didn't quickly find a
-  better candidate. Time zone always lurking in objects, everything is mutable,
+  better alternative. Time zone always lurking somewhere, everything is mutable,
   etc.
-- React is very good with TypeScript – no need for goofy `.propTypes` stuff.
+- React is much improved with TypeScript, I think – for example, no need for
+  goofy `.propTypes` stuff.
 
 ## Stuff I was thinking
 
 - The code is prepared to have wage parameters fully configured (wages, when
   overtime and evening times are etc.), which makes it a bit complex, but
-  changing the parameters is exposed to the frontend.
+  changing the parameters is currently not exposed to the frontend.
 
 ## Testing and running
 
