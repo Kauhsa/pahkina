@@ -16,13 +16,15 @@ Tested with Chrome 53, node v6.5.0, npm 3.10.3 and OSX 10.11.6.
   large dataset shouldn't block the rendering thread. Well, if you copy a
   humongous CSV file to the ACE editor, that might hang the rendering thread
   regardless ;)
-- Shows slightly more information about the wages than was requested.
+- Shows slightly more information about the wages than was requested. Wage
+  entries are clickable!
 
 ## Not so notable
 
 - No tests for frontend. Boo!
 - I'm slightly scared that there's still bugs lurking in the wage calculation.
   :-)
+- Does not react to overlapping shifts or different names with same ID.
 
 ## Discoveries
 
