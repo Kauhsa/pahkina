@@ -48,7 +48,8 @@ function parseHourEntryRow(row: string[]): HourEntry | ParseError {
     return new ParseError("invalid-columns", "Row should have 5 columns, had " + row.length);
   }
 
-  const [nameToken, idToken, dateToken, startToken, endToken] = row;
+  const strippedRow = row.map(s => s.trim())
+  const [nameToken, idToken, dateToken, startToken, endToken] = strippedRow;
 
   // validate name
   if (nameToken.length === 0) {

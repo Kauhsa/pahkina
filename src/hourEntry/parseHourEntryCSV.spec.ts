@@ -28,6 +28,12 @@ describe("parseHourEntryCSV()", () => {
     expect(result.entries).toEqual(expected)
   });
 
+  it("does not mind whitespace before and after entries", () => {
+    const result = parseHourEntryCSV("pekka  ,1,  1.1.2016,8:00   ,        16:00      ")
+    const expected = [new HourEntry("pekka", 1, moment('2016-01-01 08:00'), moment('2016-01-01 16:00'))]
+    expect(result.entries).toEqual(expected)
+  });
+
   it("does not mind extra newlines at the beginning or at the end", () => {
     const result = parseHourEntryCSV(`
     1,1,1.1.2016,8:00,16:00
