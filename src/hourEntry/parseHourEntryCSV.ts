@@ -92,7 +92,7 @@ function parseHourEntryRow(row: string[]): HourEntry | ParseError {
   return new HourEntry(nameToken, id, startDate, endDate)
 }
 
-export default function parseHourEntryCsv(data: string): ParseResult {
+export default function parseHourEntryCSV(data: string): ParseResult {
   // trim to avoid empty rows due to newline at end
   const csvParseResults = Baby.parse(data.trim())
   const parsedCsv: string[][] = csvParseResults.data
